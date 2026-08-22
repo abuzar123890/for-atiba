@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Aiman ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0d0d12;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    #text-container {
+      font-size: 1.8rem;
+      color: #ff3366;
+      font-weight: bold;
+      text-shadow: 0 0 15px #ff3366;
+      cursor: pointer;
+      user-select: none;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    .hint {
+      position: absolute;
+      bottom: 30px;
+      color: #ffb6c1;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    .final-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s forwards;
+    }
+    .bouquet {
+      font-size: 6rem;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px #ff3366);
+      animation: bounce 1.5s infinite alternate;
+    }
+    .love-text {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #ff3366;
+      text-shadow: 0 0 20px #ff3366, 0 0 30px #ff0055;
+      line-height: 1.4;
+      padding: 0 10px;
+    }
+    @keyframes bounce {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-15px) scale(1.05); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="text-container">Tap anywhere to start... ❤️</div>
+  
+  <div class="final-box" id="final-box">
+    <div class="bouquet">💐🌹🌸</div>
+    <div class="love-text">I LOVE YOU<br>AIMAN ❤️</div>
+  </div>
+
+  <div class="hint" id="hint">Tap on screen</div>
+
+  <script>
+    const messages = [
+      "i am not sure that you accept it or not 🥺",
+      "but i want to tell you something... ✨",
+      "You are very special to me ❤️",
+      "Every single moment with you is magical 💕",
+      "So here is something for you... 🌹"
+    ];
+
+    let step = 0;
+    const textElem = document.getElementById('text-container');
+    const finalBox = document.getElementById('final-box');
+    const hintElem = document.getElementById('hint');
+
+    document.body.addEventListener('click', () => {
+      if (step < messages.length) {
+        textElem.innerText = messages[step];
+        step++;
+      } else if (step === messages.length) {
+        textElem.style.display = 'none';
+        hintElem.style.display = 'none';
+        finalBox.style.display = 'flex';
+        step++;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Aiman ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="turtleCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('turtleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Center AIMAN Name
+    ctx.fillStyle = "#ff3366";
+    ctx.font = "bold 32px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("AIMAN", centerX, centerY + 10);
+
+    let scale = 16;
+    let i = 0;
+
+    function drawNextStep() {
+      if (scale < 23) {
+        let angle = i * (Math.PI * 2) / 120;
+
+        let x = 16 * Math.pow(Math.sin(angle), 3) * scale;
+        let y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * scale;
+
+        ctx.fillStyle = "#ffb6c1";
+        ctx.font = "bold 9px Arial";
+        ctx.textAlign = "center";
+        
+        ctx.fillText("I love you", centerX + x, centerY + y);
+
+        i++;
+        if (i >= 120) {
+          i = 0;
+          scale++;
+        }
+
+        // Speed slow karne ke liye 50ms interval (agar aur slow chahiye toh 80-100 kar sakte hain)
+        setTimeout(drawNextStep, 50);
+      }
+    }
+
+    drawNextStep();
+  </script>
+</body>
+</html>

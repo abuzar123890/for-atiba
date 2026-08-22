@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Aiman ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      background: #050508;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+    .center-text {
+      position: absolute;
+      z-index: 2;
+      color: #ff3366;
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 0 0 20px #ff3366, 0 0 40px #ff0055;
+      letter-spacing: 4px;
+      animation: pulse 1.5s infinite alternate;
+      pointer-events: none;
+    }
+    .card {
+      position: absolute;
+      bottom: 40px;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px 25px;
+      border-radius: 20px;
+      color: #fff;
+      text-align: center;
+      pointer-events: none;
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 1rem;
+      color: #ffb6c1;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="center-text">AIMAN</div>
+  <div class="card">
+    <h2>Tap anywhere on the screen! ❤️</h2>
+  </div>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let angle = 0;
+    const particles = [];
+    let dpr = window.devicePixelRatio || 1;
+
+    // High Resolution Adjustments (Fixes Blur)
+    function setupCanvas() {
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr);
+    }
+
+    // Heart Math Formula
+    function getHeartPoint(t, scale) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+      return { x: x * scale, y: y * scale };
+    }
+
+    function draw() {
+      // Clear canvas properly each frame for ultra-sharp text
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // Dark background overlay
+      ctx.fillStyle = '#050508';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(angle);
+
+      // Clear Font Settings for Crisp Text
+      ctx.fillStyle = '#ffb6c1';
+      ctx.font = 'bold 11px Arial';
+      ctx.textAlign = 'center';
+
+      for (let scale = 11; scale <= 16; scale += 2.5) {
+        for (let t = 0; t < Math.PI * 2; t += 0.28) {
+          const pt = getHeartPoint(t, scale);
+          ctx.fillText("I love you", pt.x, pt.y);
+        }
+      }
+
+      ctx.restore();
+
+      // Tap Particles Logic
+      particles.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.015;
+        ctx.fillStyle = `rgba(255, 51, 102, ${p.alpha})`;
+        ctx.font = `${p.size}px Arial`;
+        ctx.fillText('❤️', p.x, p.y);
+
+        if (p.alpha <= 0) particles.splice(index, 1);
+      });
+
+      angle += 0.005; // Slow smooth rotation speed
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('click', (e) => {
+      for (let i = 0; i < 6; i++) {
+        particles.push({
+          x: e.clientX,
+          y: e.clientY,
+          vx: (Math.random() - 0.5) * 4,
+          vy: (Math.random() - 0.5) * 4,
+          size: Math.random() * 18 + 12,
+          alpha: 1
+        });
+      }
+    });
+
+    window.addEventListener('resize', setupCanvas);
+
+    setupCanvas();
+    draw();
+  </script>
+</body>
+</html>
